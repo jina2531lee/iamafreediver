@@ -1,8 +1,11 @@
 import { registerRootComponent } from 'expo';
-
 import App from './App';
+import { initDatabase } from './src/database';
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
+// Initialize SQLite schema before the app mounts.
+initDatabase().catch(() => {
+  // Failing silently here to avoid blocking the app;
+  // consider reporting this to an error tracking service in production.
+});
+
 registerRootComponent(App);
